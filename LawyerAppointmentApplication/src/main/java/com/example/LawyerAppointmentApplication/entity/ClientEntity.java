@@ -2,8 +2,6 @@ package com.example.LawyerAppointmentApplication.entity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +33,5 @@ public class ClientEntity {
     private String address;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore // ignore appointments to prevent infinite recursion
     private List<AppointmentEntity> appointments;
 }
