@@ -24,11 +24,11 @@ public class LawyerServiceImpl implements LawyerService {
     private final LawyerRepository lawyerRepository;
     private final AvailabilityRepository availabilityRepository;
     private final ModelMapper mapper;
-
+    
     @Override
     public LawyerDto createLawyer(LawyerDto dto) {
         var entity = mapper.map(dto, LawyerEntity.class);
-        entity.setLawyerId(null);
+        
         var saved = lawyerRepository.save(entity);
         return mapper.map(saved, LawyerDto.class);
     }
@@ -44,12 +44,13 @@ public class LawyerServiceImpl implements LawyerService {
     public List<AvailabilityDto> getAvailabilities(Long lawyerId) {
         var lawyer = lawyerRepository.findById(lawyerId)
                 .orElseThrow(() -> new LawyerNotFoundException(
-                		"Lawyer not found: " + lawyerId));
+                        "Lawyer not found: " + lawyerId));
 
         return availabilityRepository.findByLawyer_LawyerId(lawyerId).stream()
                 .map(a -> {
                     var dto = new AvailabilityDto();
                     dto.setId(a.getId());
+                    dto.setName(lawyer.getLawyerName()); 
                     dto.setAvailableDate(a.getAvailableDate());
                     dto.setStartTime(a.getStartTime());
                     dto.setEndTime(a.getEndTime());
@@ -58,12 +59,12 @@ public class LawyerServiceImpl implements LawyerService {
                 }).collect(Collectors.toList());
     }
 
+
     @Override
     public AvailabilityDto addAvailability(Long lawyerId, AvailabilityDto dto) {
-    	
         var lawyer = lawyerRepository.findById(lawyerId)
                 .orElseThrow(() -> new LawyerNotFoundException(
-                		"Lawyer not found: " + lawyerId));
+                        "Lawyer not found: " + lawyerId));
 
         var entity = new AvailabilityEntity();
         entity.setId(null);
@@ -80,6 +81,8 @@ public class LawyerServiceImpl implements LawyerService {
         out.setStartTime(saved.getStartTime());
         out.setEndTime(saved.getEndTime());
         out.setLawyerId(lawyerId);
+        out.setName(lawyer.getLawyerName()); 
         return out;
     }
+
 }

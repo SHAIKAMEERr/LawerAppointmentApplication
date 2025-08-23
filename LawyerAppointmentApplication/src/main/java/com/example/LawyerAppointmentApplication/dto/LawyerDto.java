@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class LawyerDto {
 
     private Long lawyerId;
+    
+    private String lawyerName;
         
     private String emailId;
     

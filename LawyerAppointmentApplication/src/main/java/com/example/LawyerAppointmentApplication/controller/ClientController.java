@@ -1,5 +1,7 @@
 package com.example.LawyerAppointmentApplication.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,8 @@ import com.example.LawyerAppointmentApplication.dto.ClientDto;
 import com.example.LawyerAppointmentApplication.service.ClientService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/clients")
@@ -29,4 +33,10 @@ public class ClientController {
     public ResponseEntity<ClientDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(clientService.getClient(id));
     }
+    
+    @GetMapping
+    public List<ClientDto> getAllClients() {
+        return clientService.getAllClients();
+    }
+    
 }

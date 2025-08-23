@@ -25,6 +25,8 @@ public class AvailabilityEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	private String lawyerName;
+	
 	private LocalDate availableDate;
 	
 	private LocalTime startTime;

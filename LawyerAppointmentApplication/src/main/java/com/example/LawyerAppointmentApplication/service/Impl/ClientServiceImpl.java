@@ -1,9 +1,13 @@
 package com.example.LawyerAppointmentApplication.service.Impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.LawyerAppointmentApplication.dto.ClientDto;
+import com.example.LawyerAppointmentApplication.dto.LawyerDto;
 import com.example.LawyerAppointmentApplication.entity.ClientEntity;
 import com.example.LawyerAppointmentApplication.exception.ClientNotFoundException;
 import com.example.LawyerAppointmentApplication.repository.ClientRepository;
@@ -31,5 +35,13 @@ public class ClientServiceImpl implements ClientService {
                 .orElseThrow(() -> new ClientNotFoundException(""
                 		+ "Client not found: " + id));
         return mapper.map(e, ClientDto.class);
+    }
+
+	@Override
+    public List<ClientDto> getAllClients() {
+        List<ClientEntity> clients = clientRepository.findAll();
+        return clients.stream()
+                .map(client -> mapper.map(client, ClientDto.class))
+                .collect(Collectors.toList());
     }
 }

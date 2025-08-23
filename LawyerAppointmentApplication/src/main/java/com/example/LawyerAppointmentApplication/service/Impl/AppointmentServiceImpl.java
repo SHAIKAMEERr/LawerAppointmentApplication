@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.LawyerAppointmentApplication.constants.AppointmentStatus;
@@ -33,14 +32,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final AvailabilityRepository availabilityRepository;
     private final LawyerRepository lawyerRepository;
     private final ClientRepository clientRepository;
-    private final ModelMapper mapper;
 
     @Override
     public AppointmentResponse schedule(AppointmentScheduleRequest req) {
     	
         var lawyer = lawyerRepository.findById(req.getLawyerId())
-                .orElseThrow(() -> new LawyerNotFoundException(""
-                		+ "Lawyer not found: " + req.getLawyerId()));
+                .orElseThrow(() -> new LawyerNotFoundException(
+                		"Lawyer not found: " + req.getLawyerId()));
         
         var client = clientRepository.findById(req.getClientId())
                 .orElseThrow(() -> new ClientNotFoundException(""
